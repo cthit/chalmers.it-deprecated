@@ -2,8 +2,7 @@ import React from "react";
 import {
   DigitText,
   DigitLayout,
-  DigitDesign,
-  DigitDisplayData
+  DigitDesign
 } from "@cthit/react-digit-components";
 
 const dummyRestaurants = [

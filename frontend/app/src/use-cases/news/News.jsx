@@ -1,7 +1,5 @@
 import React from "react";
 
-const News = ({}) => {
-  return null;
-};
+const News = ({}) => <></>;
 
 export default News;
