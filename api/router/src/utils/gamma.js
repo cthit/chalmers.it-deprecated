@@ -51,8 +51,21 @@ async function postGammaToken(code) {
     });
 }
 
+const getGammaUser = req =>
+    req.session.user ? JSON.stringify(req.session.user) : null;
+
+const getUserConfig = req => {
+    return {
+        headers: {
+            user: getGammaUser(req)
+        }
+    };
+};
+
 module.exports = {
     getGammaUri,
     postGammaToken,
-    getMe
+    getMe,
+    getUserConfig,
+    getGammaUser
 };

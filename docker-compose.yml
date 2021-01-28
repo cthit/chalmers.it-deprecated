@@ -10,10 +10,10 @@ networks:
   api:
   groups:
   router:
+  news:
 
 services:
-
-  ########### ROUTER NETWORK ########### 
+  ########### ROUTER NETWORK ###########
 
   frontend:
     build:
@@ -133,7 +133,7 @@ services:
     networks:
       - gamma
 
-  ########### GROUPS NETWORK ########### 
+  ########### GROUPS NETWORK ###########
 
   groups:
     build:
@@ -154,3 +154,35 @@ services:
     image: redis:5.0
     networks:
       - groups
+
+  news:
+    build:
+      context: ./api/services/news
+      dockerfile: dev.Dockerfile
+    image: cthit-news:dev
+    depends_on:
+      - news-db
+    networks:
+      - api
+      - gamma
+      - news
+    environment:
+      PORT: 5000
+      DB_USER: news
+      DB_NAME: news
+      DB_PASS: password
+      DB_HOST: news-db
+      DB_PORT: 5432
+    ports:
+      - 5000:5000
+    volumes:
+      - ./api/services/news:/usr/src/app
+
+  news-db:
+    image: postgres:10
+    environment:
+      POSTGRES_USER: news
+      POSTGRES_DB: news
+      POSTGRES_PASSWORD: password
+    networks:
+      - news

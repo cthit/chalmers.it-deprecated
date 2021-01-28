@@ -1,17 +1,10 @@
 const axios = require("axios");
+const { getUserConfig } = require("../utils/gamma");
 
 module.exports = getGroupsRouter = router => {
     router.get("/groups", (req, res) => {
-        console.log(req.session.user);
         axios
-            .get("http://groups:8080/groups", {
-                headers: {
-                    user:
-                        req.session.user != null
-                            ? JSON.stringify(req.session.user)
-                            : null
-                }
-            })
+            .get("http://groups:8080/groups", getUserConfig(req))
             .then(response => {
                 res.status(200).send(response.data);
             })

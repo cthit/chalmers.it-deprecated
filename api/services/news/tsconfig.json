@@ -1,0 +1,8 @@
+{
+    "compilerOptions": {
+        "esModuleInterop": true,
+        "lib": ["es2020.string"]
+    },
+    "exclude": ["node_modules"],
+    "include": ["./src/**/*"]
+}

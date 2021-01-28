@@ -1,0 +1,118 @@
+openapi: 3.0.3
+info:
+  title: Chalmers.it news
+  description: "The news micro service for chalmers.it"
+  contact:
+    name: Mölle
+  version: 0.0.1
+
+paths:
+  /api/posts:
+    get:
+      tags:
+        - Posts
+      summary: Get all posts
+      responses:
+        401:
+          description: Invalid user passed in header
+          content: {}
+        200:
+          description: List of all posts
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Post"
+    post:
+      tags:
+        - Posts
+      summary: Create a new post
+      operationId: addPost
+      security:
+        - gamma: []
+      requestBody:
+        description: News item which will be shown in the news list
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: "#/components/schemas/Post"
+        required: true
+      responses:
+        201:
+          description: News post created
+          content: {}
+        400:
+          description: Missing required filed in body
+          content: {}
+        401:
+          description: Unauthorized to post as the specified group or no user was supplied
+          content: {}
+
+    put:
+      tags:
+        - Posts
+      summary: Update post
+      operationId: updatePost
+      security:
+        - gamma: []
+      requestBody:
+        description: Updates the values which are supplied
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Post"
+      responses:
+        200:
+          description: Post updated
+          content: {}
+        401:
+          description: Not authorized to edit post
+          content: {}
+        404:
+          description: Post not found
+          content: {}
+
+components:
+  securitySchemes:
+    gamma:
+      type: apiKey
+      in: header
+      name: user
+
+  schemas:
+    Post:
+      type: object
+      required:
+        - title
+        - url
+        - body
+        - group_id
+      properties:
+        title:
+          type: string
+        url:
+          type: string
+          format: uri
+        body:
+          type: string
+          format: markdown
+        user_id:
+          type: string
+          format: cid
+        group_id:
+          type: string
+          format: uuid
+        image_urls:
+          type: array
+          items:
+            type: string
+            format: uri
+        created_at:
+          type: string
+          format: timestamp
+        updated_at:
+          type: string
+          format: timestamp
